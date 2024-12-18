@@ -11,7 +11,9 @@ const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+// app.use(cors());
+// app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: 'https://learn-track.vercel.app' }));
 app.use(express.json());
 
 connectDatabase();
