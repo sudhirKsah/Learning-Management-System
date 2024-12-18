@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axios';
 import { useAuth } from '../context/AuthContext';
 import ProjectCreateModal from '../components/ProjectCreateModal';
 import TaskCreateModal from '../components/TaskCreateModal';
@@ -18,8 +18,8 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const projectsResponse = await axios.get('/api/projects/');
-                const tasksResponse = await axios.get('/api/tasks/');
+                const projectsResponse = await axiosInstance.get('/api/projects/');
+                const tasksResponse = await axiosInstance.get('/api/tasks/');
 
                 setProjects(projectsResponse.data);
                 setTasks(tasksResponse.data);
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
     const handleUpdateTaskStatus = async (taskId, newStatus) => {
         try {
-            const response = await axios.patch(`/api/tasks/${taskId}`, {
+            const response = await axiosInstance.patch(`/api/tasks/${taskId}`, {
                 status: newStatus
             });
 
@@ -59,7 +59,7 @@ const Dashboard = () => {
 
     const handleUpdateProjectStatus = async (projectId, newStatus) => {
         try {
-            const response = await axios.patch(`/api/projects/${projectId}/status`, {
+            const response = await axiosInstance.patch(`/api/projects/${projectId}/status`, {
                 status: newStatus
             });
 

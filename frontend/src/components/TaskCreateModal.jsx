@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axios';
 
 const TaskCreateModal = ({ isOpen, onClose, projectId, onTaskCreated }) => {
   const [title, setTitle] = useState('');
@@ -12,7 +12,7 @@ const TaskCreateModal = ({ isOpen, onClose, projectId, onTaskCreated }) => {
     // Fetch students assigned to the project
     const fetchProjectStudents = async () => {
       try {
-        const response = await axios.get(`/api/projects/${projectId}`);
+        const response = await axiosInstance.get(`/api/projects/${projectId}`);
         setStudents(response.data.students);
       } catch (err) {
         setError('Failed to fetch project students');
@@ -28,7 +28,7 @@ const TaskCreateModal = ({ isOpen, onClose, projectId, onTaskCreated }) => {
     e.preventDefault();
     
     try {
-      const response = await axios.post('/api/tasks', {
+      const response = await axiosInstance.post('/api/tasks', {
         title,
         description,
         projectId,
