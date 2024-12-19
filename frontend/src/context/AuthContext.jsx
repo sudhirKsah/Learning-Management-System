@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axiosInstance from '../../axios';
+// import axiosInstance from '../axios';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axiosInstance.post('/api/users/login', { email, password });
+      const response = await axios.post('https://learning-management-system-9fg6.onrender.com/api/users/login', { email, password });
       localStorage.setItem('token', response.data.token);
       setUser(response.data.user);
       setIsAuthenticated(true);
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password, role) => {
     try {
-      const response = await axiosInstance.post('/api/users/register', { 
+      const response = await axios.post('https://learning-management-system-9fg6.onrender.com/api/users/register', { 
         name, 
         email, 
         password, 
@@ -56,9 +57,9 @@ export const AuthProvider = ({ children }) => {
 
   const validateToken = async (token) => {
     try {
-      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
-      const response = await axiosInstance.get('/api/users/profile');
+      const response = await axios.get('https://learning-management-system-9fg6.onrender.com/api/users/profile');
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {

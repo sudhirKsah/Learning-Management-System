@@ -11,9 +11,20 @@ const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 
-// app.use(cors());
-// app.use(cors({ origin: 'http://localhost:5173' }));
-app.use(cors({ origin: 'https://learn-track.vercel.app' }));
+
+const corsOptions = {
+  origin: [
+    'https://learn-track.vercel.app', // Production frontend
+    'http://localhost:5173', // Local frontend for development
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // preflight requests
+
 app.use(express.json());
 
 connectDatabase();
@@ -24,7 +35,12 @@ app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// Error handling middleware
+
+app.use((req, res, next) => {
+  console.log('Request Headers:', req.headers);
+  next();
+});
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({

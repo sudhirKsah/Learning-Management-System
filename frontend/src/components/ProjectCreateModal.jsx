@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../axios';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
+// import axiosInstance from '../axios';
 
 const ProjectCreateModal = ({ isOpen, onClose, onProjectCreated }) => {
   const [title, setTitle] = useState('');
@@ -11,7 +12,7 @@ const ProjectCreateModal = ({ isOpen, onClose, onProjectCreated }) => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axiosInstance.get('/api/users/students');
+        const response = await axios.get('https://learning-management-system-9fg6.onrender.com/api/users/students');
         setStudents(response.data);
       } catch (err) {
         setError('Failed to fetch students');
@@ -27,7 +28,7 @@ const ProjectCreateModal = ({ isOpen, onClose, onProjectCreated }) => {
     e.preventDefault();
     
     try {
-      const response = await axiosInstance.post('/api/projects', {
+      const response = await axios.post('https://learning-management-system-9fg6.onrender.com/api/projects', {
         title,
         description,
         students: selectedStudents
